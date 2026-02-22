@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Sneha</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(-45deg, #ff758c, #ff7eb3, #fad0c4, #fcb69f);
+        background-size: 400% 400%;
+        animation: gradient 10s ease infinite;
+        overflow: hidden;
+    }
+
+    @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .card {
+        background: white;
+        padding: 35px 25px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        text-align: center;
+        width: 90%;
+        max-width: 420px;
+        position: relative;
+        z-index: 2;
+    }
+
+    h1 {
+        color: #ff4b5c;
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        color: #333;
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+    }
+
+    p {
+        color: #555;
+        font-size: 1rem;
+        margin-bottom: 25px;
+        line-height: 1.5;
+    }
+
+    button {
+        background: #ff4b5c;
+        color: white;
+        border: none;
+        padding: 12px 22px;
+        border-radius: 30px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #ff2e44;
+        transform: scale(1.05);
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    @media (max-width: 480px) {
+        h1 { font-size: 1.6rem; }
+        h2 { font-size: 1.2rem; }
+        p { font-size: 0.95rem; }
+    }
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="card">
+    <h1>🎉 Happy Birthday 🎂</h1>
+    <h2>Dear Sneha 💖</h2>
+    <p>
+        May your life be filled with happiness, success, and beautiful moments.
+        Keep smiling, keep shining, and keep being amazing!
+    </p>
+    <button onclick="burstConfetti()">Celebrate 🎊</button>
+</div>
+
+<script>
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let confetti = [];
+
+function randomColor() {
+    const colors = ["#ff4b5c", "#ffd93d", "#6bcB77", "#4d96ff", "#b983ff"];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function burstConfetti() {
+    for (let i = 0; i < 200; i++) {
+        confetti.push({
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            size: Math.random() * 6 + 4,
+            speedX: (Math.random() - 0.5) * 8,
+            speedY: (Math.random() - 0.5) * 8,
+            color: randomColor(),
+            life: 100
+        });
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    confetti.forEach((c, index) => {
+        c.x += c.speedX;
+        c.y += c.speedY;
+        c.speedY += 0.05;
+        c.life--;
+
+        ctx.fillStyle = c.color;
+        ctx.fillRect(c.x, c.y, c.size, c.size);
+
+        if (c.life <= 0) confetti.splice(index, 1);
+    });
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
